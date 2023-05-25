@@ -1,7 +1,6 @@
 const express = require("express");
-const User = require("../models/contact");
+const { User, sequelize } = require("../index");
 const router = express.Router();
-console.log(User);
 router.post("/users", async (req, res) => {
   try {
     const { name, email, phone } = req.body;
@@ -15,6 +14,7 @@ router.post("/users", async (req, res) => {
 router.get("/users", async (req, res) => {
   try {
     const users = await User.findAll();
+    console.log(users);
     res.json(users);
   } catch (err) {
     res.status(500).json({ error: err.message });
