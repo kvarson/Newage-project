@@ -1,65 +1,67 @@
 const express = require("express");
-const { User, sequelize } = require("../index");
+const Contact = require("../models/contact.js");
+
 const router = express.Router();
-router.post("/users", async (req, res) => {
+
+router.post("/contacts", async (req, res) => {
   try {
     const { name, email, phone } = req.body;
-    const user = await User.create({ name, email, phone });
-    res.json(user);
+    const contact = await Contact.create({ name, email, phone });
+    res.json(contact);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/contacts", async (req, res) => {
   try {
-    const users = await User.findAll();
-    console.log(users);
-    res.json(users);
+    const contacts = await Contact.findAll();
+    console.log(contacts);
+    res.json(contacts);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Read a single user
-router.get("/users/:id", async (req, res) => {
+// Read a single contact
+router.get("/contacts/:id", async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (user) {
-      res.json(user);
+    const contact = await contact.findByPk(req.params.id);
+    if (contact) {
+      res.json(contact);
     } else {
-      res.status(404).json({ error: "User not found" });
+      res.status(404).json({ error: "contact not found" });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Update a user
-router.put("/users/:id", async (req, res) => {
+// Update a contact
+router.put("/contacts/:id", async (req, res) => {
   try {
     const { name, email } = req.body;
-    const user = await User.findByPk(req.params.id);
-    if (user) {
-      await user.update({ name, email });
-      res.json(user);
+    const contact = await Contact.findByPk(req.params.id);
+    if (contact) {
+      await contact.update({ name, email });
+      res.json(contact);
     } else {
-      res.status(404).json({ error: "User not found" });
+      res.status(404).json({ error: "contact not found" });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 });
 
-// Delete a user
-router.delete("/users/:id", async (req, res) => {
+// Delete a contact
+router.delete("/contacts/:id", async (req, res) => {
   try {
-    const user = await User.findByPk(req.params.id);
-    if (user) {
-      await user.destroy();
-      res.json({ message: "User deleted successfully" });
+    const contact = await Contact.findByPk(req.params.id);
+    if (contact) {
+      await contact.destroy();
+      res.json({ message: "contact deleted successfully" });
     } else {
-      res.status(404).json({ error: "User not found" });
+      res.status(404).json({ error: "contact not found" });
     }
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -1,41 +1,17 @@
 const express = require("express");
 const app = express();
 const port = 3000;
+const sequelize = require("./db/sequilize.js");
 
-const userRouter = require("./routes/contacts.js");
+const contactRouter = require("./routes/contacts.js");
 
 app.use(express.json());
-app.use("/", userRouter);
+app.use("/", contactRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize({
-  dialect: "sqlite",
-  storage: "database.sqlite",
-});
-const { DataTypes } = require("sequelize");
-
-const User = sequelize.define("User", {
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  phone: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-    unique: true,
-  },
-});
-
-// Test the database connection
 sequelize
   .authenticate()
   .then(() => {
@@ -54,8 +30,3 @@ sequelize
   .catch((err) => {
     console.error("Unable to synchronize the database:", err);
   });
-
-module.exports = {
-  User,
-  sequelize,
-};
